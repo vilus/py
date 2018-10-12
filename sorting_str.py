@@ -38,7 +38,7 @@ def test_counters_to_str():
 def test_sorting():
     assert counters_to_str(str_to_counters('')) == ''
     assert counters_to_str(str_to_counters('4321')) == '1234'
-    assert counters_to_str(str_to_counters('002221134567890')) == '000112223456789'
+    assert counters_to_str(str_to_counters('0022211345678902')) == '0001122223456789'
 
 
 if __name__ == '__main__':
@@ -56,3 +56,4 @@ if __name__ == '__main__':
 
 
     sosted = _sorting()
+
