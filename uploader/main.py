@@ -9,7 +9,7 @@ import multiprocessing as mp
 
 # TODO: add trap SIGINT ?
 
-Progress = collections.namedtuple('Progress', 'done, error, total')
+Progress = collections.namedtuple('Progress', 'uploading, done, error, total')
 
 
 def upload(q_in, q_out):
@@ -42,6 +42,7 @@ def report(q_in, report_dict, q_out):
 
         statuses = list(report_dict.values())
         progr = Progress(done=statuses.count('done'),
+                         uploading=statuses.count('uploading'),
                          error=statuses.count('error'),
                          total=len(statuses))  # TODO: hardcode
 
@@ -94,12 +95,13 @@ class Uploader:
 
 fl = ['1th', '2th', '3th', '4th', '5th', '6th', '7th']
 q = queue.Queue()
-uploader = Uploader(fl, 6, q)
+uploader = Uploader(fl, 5, q)
 uploader.start()
 
 while uploader.is_active():
     progress = q.get()
-    print(progress.done, progress.error, progress.total)
+    print(f'uploading: {progress.uploading}, done: {progress.done}, '
+          f'error: {progress.error}, total: {progress.total}')
 
 print(uploader.report)
 uploader.terminate()
